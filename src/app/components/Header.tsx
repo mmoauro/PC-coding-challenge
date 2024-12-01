@@ -16,23 +16,32 @@ export default function Header() {
     const { data, error } = await client.auth.signInWithOAuth({
       provider: "github",
     });
-    setLoading(false);
+    //setLoading(false);
   };
 
   const handleSignOut = async () => {
+    setLoading(true);
     const { error } = await client.auth.signOut();
+    setLoading(false);
   };
   return (
     <>
       {user ? <p>Logged in as {user.email}</p> : <p>Not logged in</p>}
       <div className="flex justify-end m-2">
         {user ? (
-          <Button onClick={handleSignOut} text="Sign out" />
+          <Button
+            onClick={handleSignOut}
+            text="Sign out"
+            className="bg-red-300"
+            disabled={loading}
+            loading={loading}
+          />
         ) : (
           <Button
             onClick={handleLogin}
             text="Sign in with Github"
             disabled={loading}
+            loading={loading}
           />
         )}
       </div>

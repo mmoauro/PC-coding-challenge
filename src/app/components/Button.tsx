@@ -1,5 +1,7 @@
 "use client";
 
+import Loader from "./Loader";
+
 interface Props {
   onClick: () => void;
   text: string;
@@ -17,12 +19,15 @@ export default function Button({
   return (
     <button
       className={`bg-blue-300 rounded-md p-2 ${
-        disabled && "opacity-25 bg-red-300"
+        disabled && "opacity-25"
       } ${className}`}
       onClick={onClick}
       disabled={disabled || loading}
     >
-      <p className="text-black text-md">{text}</p>
+      {loading && <Loader className="absolute" />}
+      <p className={`text-black text-md ${loading && "text-transparent"}`}>
+        {text}
+      </p>
     </button>
   );
 }
