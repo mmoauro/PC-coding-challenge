@@ -40,7 +40,7 @@ export type Database = {
           external_id: string;
           id: number;
           image_src: string | null;
-          post_id: number;
+          post_id: string;
           text: string | null;
           user_id: string | null;
         };
@@ -49,7 +49,7 @@ export type Database = {
           external_id?: string;
           id?: number;
           image_src?: string | null;
-          post_id: number;
+          post_id: string;
           text?: string | null;
           user_id?: string | null;
         };
@@ -58,7 +58,7 @@ export type Database = {
           external_id?: string;
           id?: number;
           image_src?: string | null;
-          post_id?: number;
+          post_id?: string;
           text?: string | null;
           user_id?: string | null;
         };
@@ -68,7 +68,7 @@ export type Database = {
             columns: ["post_id"];
             isOneToOne: false;
             referencedRelation: "posts";
-            referencedColumns: ["id"];
+            referencedColumns: ["external_id"];
           },
           {
             foreignKeyName: "post_comments_user_id_fkey";

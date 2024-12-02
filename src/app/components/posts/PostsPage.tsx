@@ -4,7 +4,6 @@ import Post from "./Post";
 
 export default async function PostsPage() {
   const posts = (await PostService.getPosts()).data;
-  // TODO: Display posts
 
   return (
     <div className="flex justify-center">

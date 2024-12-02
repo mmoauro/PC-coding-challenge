@@ -2,8 +2,8 @@
 
 import { useState } from "react";
 import { createSupabaseBrowserClient } from "../auth/client";
-import useUser from "../hooks/useUser";
 import Button from "./Button";
+import { useUser } from "./UserContext";
 
 const client = createSupabaseBrowserClient();
 

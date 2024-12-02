@@ -6,7 +6,7 @@ class PostService {
     return client
       .from("posts")
       .select(
-        "created_at, text, image_src, post_comments(text, created_at, image_src), user:users(username, avatar_url)"
+        "external_id, created_at, text, image_src, post_comments(text, created_at, image_src, user:users(username, avatar_url)), user:users(username, avatar_url)"
       )
       .order("created_at", { ascending: false });
   }
