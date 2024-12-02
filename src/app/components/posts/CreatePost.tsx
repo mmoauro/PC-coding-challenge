@@ -1,32 +1,29 @@
 "use client";
+import useUser from "@/app/hooks/useUser";
 import Form from "next/form";
 import { createPost } from "./actions";
 
 export default function CreatePost() {
+  const user = useUser();
+
   return (
-    <Form action={createPost} className="w-full justify-center flex">
-      <div
-        className=" mb-4 border border-gray-200 rounded-lg bg-gray-50 dark:bg-gray-700 dark:border-gray-600"
-        style={{ minWidth: "30%" }}
-      >
-        <div className="px-4 py-2 bg-white rounded-t-lg dark:bg-gray-800">
-          <label className="sr-only">Your comment</label>
+    <Form action={createPost} className="w-full justify-center flex p-4">
+      <img
+        src={user?.user_metadata.avatar_url}
+        className="rounded-full h-10 w-10"
+      />
+      <div className=" mb-4   w-full">
+        <div className="px-4 py-2  ">
           <textarea
             id="text"
             rows={4}
-            className="w-full px-0 text-sm text-gray-900 bg-white border-0 dark:bg-gray-800 focus:ring-0 dark:text-white dark:placeholder-gray-400"
+            className="bg-transparent w-full px-0 text-lg  border-0 focus:ring-0 "
             placeholder="Write your thoughts..."
             name="text"
             required
           ></textarea>
         </div>
-        <div className="flex items-center justify-between px-3 py-2 border-t dark:border-gray-600">
-          <button
-            type="submit"
-            className="inline-flex items-center py-2.5 px-4 text-xs font-medium text-center text-white bg-blue-700 rounded-lg focus:ring-4 focus:ring-blue-200 dark:focus:ring-blue-900 hover:bg-blue-800"
-          >
-            Post
-          </button>
+        <div className="flex items-center justify-between px-3 py-2 border-t border-gray-600">
           <div className="flex ps-0 space-x-1 rtl:space-x-reverse sm:ps-2">
             <button
               type="button"
@@ -44,6 +41,12 @@ export default function CreatePost() {
               <span className="sr-only">Upload image</span>
             </button>
           </div>
+          <button
+            type="submit"
+            className="inline-flex items-center py-2.5 px-4 text-xs font-medium text-center text-white bg-blue-600 rounded-lg focus:ring-4 focus:ring-blue-200 dark:focus:ring-blue-900 hover:bg-blue-800"
+          >
+            Post
+          </button>
         </div>
       </div>
     </Form>

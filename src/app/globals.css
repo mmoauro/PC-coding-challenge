@@ -11,6 +11,8 @@
   :root {
     --background: #0a0a0a;
     --foreground: #ededed;
+    --text-primary: #d7d7d7;
+    --tone: #4b5563;
   }
 }
 
@@ -18,4 +20,5 @@ body {
   color: var(--foreground);
   background: var(--background);
   font-family: Arial, Helvetica, sans-serif;
+  color: var(--text-primary);
 }

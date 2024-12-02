@@ -18,7 +18,7 @@ export default function Button({
 }: Readonly<Props>) {
   return (
     <button
-      className={`bg-blue-300 rounded-md p-2 ${
+      className={`flex justify-center items-center bg-blue-300 rounded-md p-2 ${
         disabled && "opacity-25"
       } ${className}`}
       onClick={onClick}
