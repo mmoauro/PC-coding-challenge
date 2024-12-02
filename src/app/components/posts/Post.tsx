@@ -36,9 +36,7 @@ export default function Post({ post }: Readonly<Props>) {
           <p className=" mt-4">{post.text}</p>
           {post.image_src && (
             <img
-              src={
-                "https://www.automoli.com/common/vehicles/_assets/img/gallery/f35/volkswagen-passat-b6.jpg"
-              }
+              src={post.image_src}
               alt="post"
               className="w-full h-64 object-cover mt-4"
             />
@@ -51,7 +49,7 @@ export default function Post({ post }: Readonly<Props>) {
               alt="avatar"
               className="w-8 h-8 rounded-full"
             />
-            <p className="text-black ml-2">{comment.text}</p>
+            <p className="text-text-primary ml-2">{comment.text}</p>
           </div>
         ))}
       </div>

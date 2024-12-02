@@ -1,10 +1,25 @@
 "use client";
 import useUser from "@/app/hooks/useUser";
 import Form from "next/form";
+import { useRef, useState } from "react";
 import { createPost } from "./actions";
 
 export default function CreatePost() {
   const user = useUser();
+  const fileInput = useRef<HTMLInputElement>(null);
+  const [image, setImage] = useState<File | null>(null);
+
+  const pickImage = () => {
+    fileInput.current?.click();
+  };
+
+  const onPickImage = (e: React.ChangeEvent<HTMLInputElement>) => {
+    const files = e.target.files;
+    if (files?.length) {
+      const file = files[0];
+      setImage(file);
+    }
+  };
 
   return (
     <Form action={createPost} className="w-full justify-center flex p-4">
@@ -16,16 +31,50 @@ export default function CreatePost() {
         <div className="px-4 py-2  ">
           <textarea
             id="text"
-            rows={4}
-            className="bg-transparent w-full px-0 text-lg  border-0 focus:ring-0 "
+            rows={2}
+            className="bg-transparent w-full px-0 text-lg outline-none "
             placeholder="Write your thoughts..."
             name="text"
             required
           ></textarea>
         </div>
+        {image && (
+          <div>
+            <svg
+              xmlns="http://www.w3.org/2000/svg"
+              fill="black"
+              viewBox="0 0 24 24"
+              strokeWidth={1.5}
+              stroke="currentColor"
+              className="size-8 absolute cursor-pointer"
+              onClick={() => setImage(null)}
+            >
+              <path
+                strokeLinecap="round"
+                strokeLinejoin="round"
+                d="m9.75 9.75 4.5 4.5m0-4.5-4.5 4.5M21 12a9 9 0 1 1-18 0 9 9 0 0 1 18 0Z"
+              />
+            </svg>
+
+            <img
+              src={URL.createObjectURL(image)}
+              alt="post image"
+              className="object-cover mt-4 rounded-lg"
+            />
+          </div>
+        )}
         <div className="flex items-center justify-between px-3 py-2 border-t border-gray-600">
           <div className="flex ps-0 space-x-1 rtl:space-x-reverse sm:ps-2">
+            <input
+              type="file"
+              name="image"
+              className="hidden"
+              ref={fileInput}
+              accept=".jpeg,.jpg,.png"
+              onChange={onPickImage}
+            />
             <button
+              onClick={pickImage}
               type="button"
               className="inline-flex justify-center items-center p-2 text-gray-500 rounded cursor-pointer hover:text-gray-900 hover:bg-gray-100 dark:text-gray-400 dark:hover:text-white dark:hover:bg-gray-600"
             >
@@ -43,7 +92,10 @@ export default function CreatePost() {
           </div>
           <button
             type="submit"
-            className="inline-flex items-center py-2.5 px-4 text-xs font-medium text-center text-white bg-blue-600 rounded-lg focus:ring-4 focus:ring-blue-200 dark:focus:ring-blue-900 hover:bg-blue-800"
+            className={`inline-flex items-center py-2.5 px-4 text-xs font-medium text-center text-white bg-blue-600 rounded-lg focus:ring-4 focus:ring-blue-200 dark:focus:ring-blue-900 hover:bg-blue-800 ${
+              !user && "opacity-25"
+            }`}
+            disabled={!user}
           >
             Post
           </button>

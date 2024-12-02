@@ -1,5 +1,6 @@
 "use server";
 import { createSupabaseClient, getUser } from "@/app/auth/server";
+import ImageService from "@/app/services/ImageService";
 import { redirect } from "next/navigation";
 
 export async function createPost(formData: FormData) {
@@ -8,8 +9,20 @@ export async function createPost(formData: FormData) {
     console.error("User is not authenticated");
     return;
   }
+
+  const image = formData.get("image") as File | null;
+  let imageUrl = null;
+  if (image) {
+    try {
+      imageUrl = await ImageService.uploadImage(image);
+    } catch {
+      console.log("Error uploading image");
+      return;
+    }
+  }
   const post = {
     text: formData.get("text") as string,
+    image_src: imageUrl,
   };
 
   const client = await createSupabaseClient();
