@@ -12,11 +12,6 @@ interface Props {
 export default function Img({ src, alt, className, onError }: Readonly<Props>) {
   const [isLoaded, setIsLoaded] = useState(false);
 
-  const handleError = () => {
-    setIsLoaded(true);
-    onError && onError();
-  };
-
   return (
     <>
       {!isLoaded && (
@@ -31,7 +26,7 @@ export default function Img({ src, alt, className, onError }: Readonly<Props>) {
         src={src}
         alt={alt}
         onLoad={() => setIsLoaded(true)}
-        onError={handleError}
+        onError={onError}
       />
     </>
   );
