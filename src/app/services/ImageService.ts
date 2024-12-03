@@ -6,7 +6,7 @@ class ImageService {
     const uniqueImageName = `${randomUUID()}-${image.name.replace(/ /g, "_")}`;
 
     const supabase = await createSupabaseClient();
-    const { data, error } = await supabase.storage
+    const { error } = await supabase.storage
       .from("images")
       .upload(uniqueImageName, image);
 

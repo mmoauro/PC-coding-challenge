@@ -1,6 +1,7 @@
 "use client";
 
 import { useState } from "react";
+import toast from "react-hot-toast";
 import { createSupabaseBrowserClient } from "../auth/client";
 import Button from "./Button";
 import { useUser } from "./UserContext";
@@ -13,15 +14,17 @@ export default function Header() {
 
   const handleLogin = async () => {
     setLoading(true);
-    const { data, error } = await client.auth.signInWithOAuth({
+    await client.auth.signInWithOAuth({
       provider: "github",
     });
-    //setLoading(false);
   };
 
   const handleSignOut = async () => {
     setLoading(true);
     const { error } = await client.auth.signOut();
+    if (error) {
+      toast.error("Error signing out");
+    }
     setLoading(false);
   };
   return (
