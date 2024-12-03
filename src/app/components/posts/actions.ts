@@ -1,13 +1,13 @@
 "use server";
 import { createSupabaseClient, getUser } from "@/app/auth/server";
+import { Comment, Post } from "@/app/models/Post";
 import ImageService from "@/app/services/ImageService";
-import { redirect } from "next/navigation";
+import PostService from "@/app/services/PostService";
 
-export async function createPost(formData: FormData) {
+export async function createPost(formData: FormData): Promise<Post> {
   const user = await getUser();
   if (!user) {
-    console.error("User is not authenticated");
-    return;
+    throw new Error("User is not authenticated");
   }
 
   const image = formData.get("image") as File | null;
@@ -16,8 +16,7 @@ export async function createPost(formData: FormData) {
     try {
       imageUrl = await ImageService.uploadImage(image);
     } catch {
-      console.log("Error uploading image");
-      return;
+      throw new Error("Error uploading image");
     }
   }
   const post = {
@@ -25,21 +24,20 @@ export async function createPost(formData: FormData) {
     image_src: imageUrl,
   };
 
-  const client = await createSupabaseClient();
-  const { error } = await client.from("posts").insert(post);
+  const { data, error } = await PostService.createPost(post);
   if (error) {
-    console.error("Error creating post:", error);
-    return;
+    throw new Error("Error creating post");
   }
-  // Redirect to the new post
-  redirect(`/`);
+  return data[0];
 }
 
-export async function createComment(postId: string, formData: FormData) {
+export async function createComment(
+  postId: string,
+  formData: FormData
+): Promise<Comment> {
   const user = await getUser();
   if (!user) {
-    console.error("User is not authenticated");
-    return;
+    throw new Error("User is not authenticated");
   }
 
   const image = formData.get("image") as File | null;
@@ -48,8 +46,7 @@ export async function createComment(postId: string, formData: FormData) {
     try {
       imageUrl = await ImageService.uploadImage(image);
     } catch {
-      console.log("Error uploading image");
-      return;
+      throw new Error("Error uploading image");
     }
   }
   const comment = {
@@ -59,11 +56,12 @@ export async function createComment(postId: string, formData: FormData) {
   };
 
   const client = await createSupabaseClient();
-  const { error } = await client.from("post_comments").insert(comment);
+  const { data, error } = await client
+    .from("post_comments")
+    .insert(comment)
+    .select("text, created_at, image_src, user:users(username, avatar_url)");
   if (error) {
-    console.error("Error creating comment:", error);
-    return;
+    throw new Error("Error creating comment");
   }
-  // Redirect to the new comment
-  redirect(`/`);
+  return data[0];
 }

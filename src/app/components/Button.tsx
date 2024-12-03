@@ -8,6 +8,7 @@ interface Props {
   className?: string;
   disabled?: boolean;
   loading?: boolean;
+  type?: "submit" | "reset" | "button" | undefined;
 }
 export default function Button({
   onClick,
@@ -15,6 +16,7 @@ export default function Button({
   className,
   disabled,
   loading,
+  type,
 }: Readonly<Props>) {
   return (
     <button
@@ -23,6 +25,7 @@ export default function Button({
       } ${className}`}
       onClick={onClick}
       disabled={disabled || loading}
+      type={type}
     >
       {loading && <Loader className="absolute" />}
       <p className={`text-black text-md ${loading && "text-transparent"}`}>

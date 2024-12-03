@@ -1,4 +1,5 @@
 import { useState } from "react";
+import Img from "../Image";
 
 interface Props {
   className?: string;
@@ -37,11 +38,12 @@ export default function Avatar({ className, url, username }: Readonly<Props>) {
       </svg>
     );
   }
+
   return (
-    <img
+    <Img
       src={url}
       alt="avatar"
-      className={`w-8 h-8 rounded-full ${className}`}
+      className={`w-6 h-6 rounded-full ${className}`}
       onError={() => setHasError(true)}
     />
   );

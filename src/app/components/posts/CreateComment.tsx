@@ -3,6 +3,7 @@ import { useState } from "react";
 import Button from "../Button";
 import Avatar from "../icons/Avatar";
 import CloseIcon from "../icons/CloseIcon";
+import Img from "../Image";
 import ImageInput from "../ImageInput";
 import { useUser } from "../UserContext";
 
@@ -45,7 +46,7 @@ export default function CreateComment({ onCreate }: Readonly<Props>) {
         {image && (
           <div>
             <CloseIcon onClick={() => setImage(null)} />
-            <img
+            <Img
               src={URL.createObjectURL(image)}
               alt="post image"
               className="object-cover mt-4 rounded-lg"
