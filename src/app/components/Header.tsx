@@ -16,6 +16,10 @@ export default function Header() {
     setLoading(true);
     await client.auth.signInWithOAuth({
       provider: "github",
+      options: {
+        redirectTo:
+          process.env.NEXT_PUBLIC_VERCEL_URL ?? "http://localhost:3000",
+      },
     });
   };
 
