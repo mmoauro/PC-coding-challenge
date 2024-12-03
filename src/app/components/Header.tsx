@@ -5,6 +5,7 @@ import toast from "react-hot-toast";
 import { createSupabaseBrowserClient } from "../auth/client";
 import Button from "./Button";
 import { useUser } from "./UserContext";
+import Avatar from "./icons/Avatar";
 
 const client = createSupabaseBrowserClient();
 
@@ -33,8 +34,20 @@ export default function Header() {
   };
   return (
     <>
-      {user ? <p>Logged in as {user.email}</p> : <p>Not logged in</p>}
-      <div className="flex justify-end m-2">
+      <div className="flex justify-between m-2">
+        {user ? (
+          <div className="flex items-center space-x-2">
+            <p>
+              Logged in as{" "}
+              <span className="font-semibold">
+                {user.user_metadata.user_name}
+              </span>
+            </p>
+            <Avatar url={user.user_metadata.avatar_url} />
+          </div>
+        ) : (
+          <p>Not logged in</p>
+        )}
         {user ? (
           <Button
             onClick={handleSignOut}
