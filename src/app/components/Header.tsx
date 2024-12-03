@@ -13,6 +13,7 @@ export default function Header() {
   const user = useUser();
 
   const handleLogin = async () => {
+    console.log(process.env.NEXT_PUBLIC_VERCEL_URL);
     setLoading(true);
     await client.auth.signInWithOAuth({
       provider: "github",
