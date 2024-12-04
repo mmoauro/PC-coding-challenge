@@ -14,6 +14,7 @@ export interface Comment {
   text: string | null;
   created_at: string;
   image_src: string | null;
+  external_id: string;
   user: {
     username: string;
     avatar_url: string | null;

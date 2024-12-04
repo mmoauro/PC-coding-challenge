@@ -1,6 +1,9 @@
 "use client";
 import { Comment, Post as PostModel } from "@/app/models/Post";
-import { useState } from "react";
+import { useEffect, useState } from "react";
+import toast from "react-hot-toast";
+import { getPosts } from "../../actions/post-actions";
+import Loader from "../Loader";
 import CreatePost from "./CreatePost";
 import Post from "./Post";
 
@@ -8,8 +11,13 @@ interface Props {
   initialPosts: PostModel[];
 }
 
+const LOAD_SIZE = 2;
+
 export default function PostsContainer({ initialPosts }: Readonly<Props>) {
-  const [posts, setPosts] = useState(initialPosts);
+  const [posts, setPosts] = useState<PostModel[]>(initialPosts);
+  const [offset, setOffset] = useState(1);
+  const [loading, setLoading] = useState(false);
+  const [noMorePosts, setNoMorePosts] = useState(false);
 
   const handleNewPostCreated = (newPost: PostModel) => {
     setPosts((prev) => [newPost, ...prev]);
@@ -29,18 +37,65 @@ export default function PostsContainer({ initialPosts }: Readonly<Props>) {
     );
   };
 
+  const fetchMore = async () => {
+    try {
+      setLoading(true);
+      const newPosts = await getPosts({
+        from: offset,
+        to: offset + LOAD_SIZE,
+      });
+      if (newPosts.error) {
+        toast.error("Failed to load more posts");
+        return;
+      }
+      setPosts((prev) => [...prev, ...newPosts.data]);
+      if (newPosts.data.length < LOAD_SIZE) {
+        setNoMorePosts(true);
+      }
+    } catch {
+      toast.error("Failed to load more posts");
+    } finally {
+      setLoading(false);
+    }
+  };
+
+  useEffect(() => {
+    fetchMore();
+  }, [offset]);
+
+  const handleScroll = () => {
+    if (loading || noMorePosts) {
+      return;
+    }
+    if (
+      window.innerHeight + document.documentElement.scrollTop >=
+      document.documentElement.offsetHeight - 100
+    ) {
+      setOffset((prev) => prev + LOAD_SIZE);
+    }
+  };
+
+  useEffect(() => {
+    window.addEventListener("scroll", handleScroll);
+    return () => window.removeEventListener("scroll", handleScroll);
+  }, [loading, noMorePosts]);
+
   return (
     <>
       <CreatePost onPostCreated={handleNewPostCreated} />
-      {posts.map((post, index) => (
+      {posts.map((post) => (
         <Post
-          key={index}
+          key={post.external_id}
           post={post}
           onCommentCreated={(comment) =>
             handleNewCommentCreated(post.external_id, comment)
           }
         />
       ))}
+      <div className="flex justify-center mb-4">
+        {loading && <Loader />}
+        {noMorePosts && <p className="">Nothing more to see!</p>}
+      </div>
     </>
   );
 }

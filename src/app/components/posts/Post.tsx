@@ -1,5 +1,6 @@
 "use client";
 
+import { createComment } from "@/app/actions/comment-actions";
 import { Comment as CommentModel, Post as PostModel } from "@/app/models/Post";
 import { timeAgo } from "@/app/utils/TimeUtils";
 import { useState } from "react";
@@ -8,7 +9,6 @@ import Avatar from "../icons/Avatar";
 import ChatIcon from "../icons/ChatIcon";
 import Img from "../Image";
 import { useUser } from "../UserContext";
-import { createComment } from "./actions";
 import Comment from "./Comment";
 import CreateComment from "./CreateComment";
 
@@ -26,7 +26,7 @@ export default function Post({ post, onCommentCreated }: Readonly<Props>) {
     image: File | null;
   }) => {
     const formData = new FormData();
-    formData.set("text", comment.text || "");
+    formData.set("text", comment.text ?? "");
     formData.set("image", comment.image || "");
     try {
       const newComment = await createComment(post.external_id, formData);
@@ -63,17 +63,17 @@ export default function Post({ post, onCommentCreated }: Readonly<Props>) {
               className="w-full object-cover mt-4"
             />
           )}
-          <div
+          <button
             className="cursor-pointer flex items-center mt-4 space-x-2 hover:opacity-70 self-start"
             onClick={() => setCommentsExpanded((prev) => !prev)}
           >
             <ChatIcon />
             <p>{post.post_comments.length}</p>
-          </div>
+          </button>
           {commentsExpanded && (
             <>
-              {post.post_comments.map((comment, index) => (
-                <Comment comment={comment} key={index} />
+              {post.post_comments.map((comment) => (
+                <Comment comment={comment} key={comment.external_id} />
               ))}
               {user ? (
                 <CreateComment onCreate={onCreateComment} />

@@ -33,38 +33,36 @@ export default function Header() {
     setLoading(false);
   };
   return (
-    <>
-      <div className="flex justify-between m-2">
-        {user ? (
-          <div className="flex items-center space-x-2">
-            <p>
-              Logged in as{" "}
-              <span className="font-semibold">
-                {user.user_metadata.user_name}
-              </span>
-            </p>
-            <Avatar url={user.user_metadata.avatar_url} />
-          </div>
-        ) : (
-          <p>Not logged in</p>
-        )}
-        {user ? (
-          <Button
-            onClick={handleSignOut}
-            text="Sign out"
-            className="bg-red-300"
-            disabled={loading}
-            loading={loading}
-          />
-        ) : (
-          <Button
-            onClick={handleLogin}
-            text="Sign in with Github"
-            disabled={loading}
-            loading={loading}
-          />
-        )}
-      </div>
-    </>
+    <div className="flex justify-between m-2">
+      {user ? (
+        <div className="flex items-center space-x-2">
+          <p>
+            Logged in as{" "}
+            <span className="font-semibold">
+              {user.user_metadata.user_name}
+            </span>
+          </p>
+          <Avatar url={user.user_metadata.avatar_url} />
+        </div>
+      ) : (
+        <p>Not logged in</p>
+      )}
+      {user ? (
+        <Button
+          onClick={handleSignOut}
+          text="Sign out"
+          className="bg-red-300"
+          disabled={loading}
+          loading={loading}
+        />
+      ) : (
+        <Button
+          onClick={handleLogin}
+          text="Sign in with Github"
+          disabled={loading}
+          loading={loading}
+        />
+      )}
+    </div>
   );
 }

@@ -1,8 +1,8 @@
-import PostService from "@/app/services/PostService";
+import { getPosts } from "../../actions/post-actions";
 import PostsContainer from "./PostsContainer";
 
 export default async function PostsPage() {
-  const posts = (await PostService.getPosts()).data;
+  const posts = (await getPosts({ from: 0, to: 0 })).data;
 
   return (
     <div className="flex justify-center">

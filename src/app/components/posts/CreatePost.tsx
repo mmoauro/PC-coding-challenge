@@ -2,13 +2,13 @@
 import { Post } from "@/app/models/Post";
 import { FormEvent, useCallback, useState } from "react";
 import toast from "react-hot-toast";
+import { createPost } from "../../actions/post-actions";
 import Button from "../Button";
 import Avatar from "../icons/Avatar";
 import CloseIcon from "../icons/CloseIcon";
 import Img from "../Image";
 import ImageInput from "../ImageInput";
 import { useUser } from "../UserContext";
-import { createPost } from "./actions";
 
 interface Props {
   onPostCreated: (post: Post) => void;
