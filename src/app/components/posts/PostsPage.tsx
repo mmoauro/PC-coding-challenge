@@ -2,7 +2,7 @@ import { getPosts } from "../../actions/post-actions";
 import PostsContainer from "./PostsContainer";
 
 export default async function PostsPage() {
-  const posts = (await getPosts({ from: 0, to: 0 })).data;
+  const posts = (await getPosts({ from: 0, to: 1 })).data; // First it loads the last two posts
 
   return (
     <div className="flex justify-center">

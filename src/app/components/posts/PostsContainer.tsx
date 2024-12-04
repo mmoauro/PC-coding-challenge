@@ -15,7 +15,7 @@ const LOAD_SIZE = 2;
 
 export default function PostsContainer({ initialPosts }: Readonly<Props>) {
   const [posts, setPosts] = useState<PostModel[]>(initialPosts);
-  const [offset, setOffset] = useState(1);
+  const [offset, setOffset] = useState(0);
   const [loading, setLoading] = useState(false);
   const [noMorePosts, setNoMorePosts] = useState(false);
 
@@ -60,7 +60,11 @@ export default function PostsContainer({ initialPosts }: Readonly<Props>) {
   };
 
   useEffect(() => {
-    fetchMore();
+    if (offset === 0) {
+      return;
+    } else {
+      fetchMore();
+    }
   }, [offset]);
 
   const handleScroll = () => {
@@ -94,7 +98,11 @@ export default function PostsContainer({ initialPosts }: Readonly<Props>) {
       ))}
       <div className="flex justify-center mb-4">
         {loading && <Loader />}
-        {noMorePosts && <p className="">Nothing more to see!</p>}
+        {noMorePosts && (
+          <p className="text-gray-600">
+            You&apos;ve seen it all! Come back soon for more updates.
+          </p>
+        )}
       </div>
     </>
   );
