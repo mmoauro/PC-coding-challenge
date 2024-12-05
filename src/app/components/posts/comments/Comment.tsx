@@ -1,7 +1,7 @@
 import { Comment as CommentModel } from "@/app/models/Post";
 import { timeAgo } from "@/app/utils/TimeUtils";
-import Avatar from "../icons/Avatar";
-import Img from "../Image";
+import Avatar from "../../icons/Avatar";
+import Img from "../../Image";
 
 interface Props {
   comment: CommentModel;

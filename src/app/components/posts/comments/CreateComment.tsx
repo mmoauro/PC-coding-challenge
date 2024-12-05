@@ -1,11 +1,11 @@
 "use client";
 import { useState } from "react";
-import Button from "../Button";
-import Avatar from "../icons/Avatar";
-import CloseIcon from "../icons/CloseIcon";
-import Img from "../Image";
-import ImageInput from "../ImageInput";
-import { useUser } from "../UserContext";
+import Button from "../../Button";
+import Avatar from "../../icons/Avatar";
+import CloseIcon from "../../icons/CloseIcon";
+import Img from "../../Image";
+import ImageInput from "../../ImageInput";
+import { useUser } from "../../UserContext";
 
 interface Props {
   onCreate: (comment: { text: string | null; image: File | null }) => void;

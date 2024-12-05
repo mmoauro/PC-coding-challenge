@@ -9,8 +9,8 @@ import Avatar from "../icons/Avatar";
 import ChatIcon from "../icons/ChatIcon";
 import Img from "../Image";
 import { useUser } from "../UserContext";
-import Comment from "./Comment";
-import CreateComment from "./CreateComment";
+import Comment from "./comments/Comment";
+import CreateComment from "./comments/CreateComment";
 
 interface Props {
   post: PostModel;

@@ -1,3 +1,5 @@
+"use server";
+
 import { createSupabaseClient, getUser } from "../auth/server";
 import { Comment } from "../models/Post";
 import ImageService from "../services/ImageService";
