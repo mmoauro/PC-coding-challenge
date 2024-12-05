@@ -38,7 +38,6 @@ export async function createPost(formData: FormData): Promise<Post> {
 }
 
 export async function getPosts({ from, to }: { from: number; to: number }) {
-  console.log({ from, to });
   const client = await createSupabaseClient();
 
   const posts = await client

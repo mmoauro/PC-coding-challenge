@@ -11,7 +11,6 @@ class ImageService {
       .upload(uniqueImageName, image);
 
     if (error) {
-      console.error("Error uploading image:", error);
       throw error;
     }
 
@@ -19,5 +18,5 @@ class ImageService {
       .publicUrl;
   }
 }
-
-export default new ImageService();
+const service = new ImageService();
+export default service;

@@ -1,6 +1,6 @@
 "use client";
 import { Comment, Post as PostModel } from "@/app/models/Post";
-import { useEffect, useState } from "react";
+import { useCallback, useEffect, useState } from "react";
 import toast from "react-hot-toast";
 import { getPosts } from "../../actions/post-actions";
 import Loader from "../Loader";
@@ -37,7 +37,7 @@ export default function PostsContainer({ initialPosts }: Readonly<Props>) {
     );
   };
 
-  const fetchMore = async () => {
+  const fetchMore = useCallback(async () => {
     try {
       setLoading(true);
       const newPosts = await getPosts({
@@ -57,7 +57,7 @@ export default function PostsContainer({ initialPosts }: Readonly<Props>) {
     } finally {
       setLoading(false);
     }
-  };
+  }, [offset]);
 
   useEffect(() => {
     if (offset === 0) {
@@ -65,9 +65,9 @@ export default function PostsContainer({ initialPosts }: Readonly<Props>) {
     } else {
       fetchMore();
     }
-  }, [offset]);
+  }, [fetchMore, offset]);
 
-  const handleScroll = () => {
+  const handleScroll = useCallback(() => {
     if (loading || noMorePosts) {
       return;
     }
@@ -77,12 +77,12 @@ export default function PostsContainer({ initialPosts }: Readonly<Props>) {
     ) {
       setOffset((prev) => prev + LOAD_SIZE);
     }
-  };
+  }, [loading, noMorePosts]);
 
   useEffect(() => {
     window.addEventListener("scroll", handleScroll);
     return () => window.removeEventListener("scroll", handleScroll);
-  }, [loading, noMorePosts]);
+  }, [loading, handleScroll]);
 
   return (
     <>
