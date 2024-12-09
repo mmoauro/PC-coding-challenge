@@ -75,7 +75,7 @@ export default function PostsContainer({ initialPosts }: Readonly<Props>) {
       window.innerHeight + document.documentElement.scrollTop >=
       document.documentElement.offsetHeight - 100
     ) {
-      setOffset((prev) => prev + LOAD_SIZE);
+      setOffset((prev) => prev + LOAD_SIZE + 1);
     }
   }, [loading, noMorePosts]);
 
